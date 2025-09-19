@@ -1,3 +1,7 @@
+# Jakarta Validation
+
+Jakarta Validation is a specification which allows you to express constraints on object models via annotations and validate those constraints.
+
 # Changes between Jakarta Validation 3.1 and Jakarta Bean Validation 3.0
 
 - Jakarta Validation 3.1 will provide all necessary support for Java records.
