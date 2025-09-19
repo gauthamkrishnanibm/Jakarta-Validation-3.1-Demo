@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<server description="v31demoServer">
+    <featureManager>
+        <!-- Feature being tested -->
+        <feature>validation-3.1</feature>
+
+        <!-- Feature integrations being tested -->
+        <feature>cdi-4.1</feature>
+       
+        <!-- Protocol used by Servlet -->
+        <feature>servlet-6.1</feature>
+    </featureManager>
+
+    <!-- Configure default ports -->
+    <httpEndpoint id="defaultHttpEndpoint" 
+                  host="*" 
+                  httpPort="${default.http.port}" 
+                  httpsPort="${default.https.port}" />
+
+    <!-- Define the application -->
+    <webApplication id="v31demo" location="v31demo.war" contextRoot="/" />
+
+    <!-- Fast application startup -->
+    <applicationManager autoExpand="true" />
+</server>
