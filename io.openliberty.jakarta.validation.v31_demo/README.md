@@ -1,3 +1,9 @@
+# Changes between Jakarta Validation 3.1 and Jakarta Bean Validation 3.0
+
+- The minimum required Java version is set to 17.
+- The rename of the specification from Jakarta Bean Validation to Jakarta Validation.
+- The clarification on the record validation.
+
 # Jakarta Validation 3.1 Demo
 
 This project demonstrates Jakarta Validation 3.1 new features.
