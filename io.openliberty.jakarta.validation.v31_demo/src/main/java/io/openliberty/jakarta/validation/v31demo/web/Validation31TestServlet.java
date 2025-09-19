@@ -523,7 +523,11 @@ public class Validation31TestServlet extends HttpServlet {
                        "Person invalid = new Person(null);";
                 
             case "recordValidatePropertyAndValueTest":
-                return "// Validate a specific property of an object\n" +
+                return "// Person record with @NotNull constraint\n" +
+                       "public record Person(@NotNull String name) {\n" +
+                       "    // Record implementation\n" +
+                       "}\n\n" +
+                       "// Validate a specific property of an object\n" +
                        "Person person = new Person(null);\n" +
                        "Set<ConstraintViolation<Person>> propertyViolations = \n" +
                        "    validator.validateProperty(person, \"name\");\n\n" +
@@ -542,6 +546,7 @@ public class Validation31TestServlet extends HttpServlet {
                        "        return this.name;\n" +
                        "    }\n" +
                        "}\n\n" +
+                       "Person person = new Person(\"x\");\n\n" +
                        "// Validate method parameters\n" +
                        "Method method = Person.class.getMethod(\"checkNameSize\", String.class);\n" +
                        "Object[] params = { \"Maxallowedvaluesis10\" };\n" +
