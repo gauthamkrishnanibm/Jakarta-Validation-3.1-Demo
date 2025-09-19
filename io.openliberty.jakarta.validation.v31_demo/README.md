@@ -63,8 +63,7 @@ The following demos are available:
 2. **Record ValidateProperty and ValidateValue Demo**: Shows how to validate specific properties or values of a record.
 3. **Validate Record Parameters Demo**: Demonstrates validation of method parameters and return values on a record.
 4. **Nested Records Demo**: Shows cascaded validation with nested records.
-5. **Convert Groups Records Demo**: Demonstrates group conversion with records.
-6. **Group Sequence Records Demo**: Shows group sequence validation with records.
+5. **Group Sequence Records Demo**: Shows group sequence validation with records.
 
 ## Demo Details
 
@@ -83,10 +82,6 @@ This demo shows how to validate method parameters and return values on a record 
 ### Nested Records Demo
 
 This demo demonstrates cascaded validation with nested records using the `@Valid` annotation.
-
-### Convert Groups Records Demo
-
-This demo shows how to convert validation groups using the `@ConvertGroup` annotation.
 
 ### Group Sequence Records Demo
 
