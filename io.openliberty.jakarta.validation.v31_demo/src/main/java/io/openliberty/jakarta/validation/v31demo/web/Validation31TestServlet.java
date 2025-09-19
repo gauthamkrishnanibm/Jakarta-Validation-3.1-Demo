@@ -17,12 +17,9 @@ import java.io.PrintWriter;
 import java.lang.reflect.Method;
 import java.util.Set;
 
-import io.openliberty.jakarta.validation.v31demo.model.Company;
 import io.openliberty.jakarta.validation.v31demo.model.EmailAddress;
 import io.openliberty.jakarta.validation.v31demo.model.Employee;
 import io.openliberty.jakarta.validation.v31demo.model.Person;
-import io.openliberty.jakarta.validation.v31demo.model.Registration;
-import io.openliberty.jakarta.validation.v31demo.model.RegistrationChecks;
 import io.openliberty.jakarta.validation.v31demo.model.SignupForm;
 import io.openliberty.jakarta.validation.v31demo.model.ValidationOrder;
 import jakarta.inject.Inject;
@@ -356,42 +353,6 @@ public class Validation31TestServlet extends HttpServlet {
         }
     }
     
-    /**
-     * Demo that a group specified on a record can be validated separately, and that group conversion
-     * works on a record.
-     */
-    public void convertGroupsRecordsTest(TestResult result) {
-        try {
-            Registration reg = new Registration("x1asas", false);
-            Set<ConstraintViolation<Registration>> constraintViolations = validator.validate(reg);
-            
-            boolean check1 = constraintViolations.size() == 0;
-            
-            result.addDetail("Registration(valid, false) default group violations: " + constraintViolations.size());
-            
-            Company cmp2 = new Company(" sds", reg);
-            Set<ConstraintViolation<Company>> constraintViolations2 = validator.validate(cmp2, RegistrationChecks.class);
-            
-            boolean check2 = constraintViolations2.size() == 2;
-            
-            result.addDetail("Company(valid, Registration) with RegistrationChecks group violations: " + constraintViolations2.size());
-            
-            if (!check1 || !check2) {
-                result.setSuccess(false);
-                result.setMessage("Group conversion did not produce expected results");
-            }
-            
-            if (constraintViolations2.size() > 0) {
-                for (ConstraintViolation<Company> violation : constraintViolations2) {
-                    result.addDetail("Group Conversion Violation: " + violation.getPropertyPath() + " - " + violation.getMessage());
-                }
-            }
-        } catch (Exception e) {
-            result.setSuccess(false);
-            result.setMessage("Exception occurred: " + e.getMessage());
-            result.addDetail(e.toString());
-        }
-    }
     
     /**
      * Demo the GroupSequence on a record.
@@ -492,12 +453,6 @@ public class Validation31TestServlet extends HttpServlet {
                        "<li>An instance with an invalid email (violating <code>@Email</code>)</li>" +
                        "</ul>";
                 
-            case "convertGroupsRecordsTest":
-                return "<p>This demo demonstrates group conversion with records using the <code>@ConvertGroup</code> annotation.</p>" +
-                       "<p>It validates a <code>Company</code> record that contains a <code>Registration</code> record. " +
-                       "The <code>@ConvertGroup</code> annotation on the <code>registration</code> field converts the default group to the <code>RegistrationChecks</code> group.</p>" +
-                       "<p>The demo shows how constraints in different validation groups can be activated based on the context.</p>";
-                
             case "GroupSequenceRecordsTest":
                 return "<p>This demo demonstrates group sequence validation with records using the <code>@GroupSequence</code> annotation.</p>" +
                        "<p>It validates a <code>SignupForm</code> record using a <code>ValidationOrder</code> that defines a sequence of validation groups: <code>FirstGroup</code> followed by <code>SecondGroup</code>.</p>" +
@@ -565,24 +520,6 @@ public class Validation31TestServlet extends HttpServlet {
                        "Employee emp1 = new Employee(null, new EmailAddress(\"valid@example.com\"));\n" +
                        "Employee emp2 = new Employee(\"validId\", new EmailAddress(\"invalid\"));";
                 
-            case "convertGroupsRecordsTest":
-                return "// Group interface\n" +
-                       "public interface RegistrationChecks {}\n\n" +
-                       "// Registration record with group-specific constraint\n" +
-                       "public record Registration(\n" +
-                       "    @NotNull String companyid,\n" +
-                       "    @AssertTrue(message = \"Company should be registered\",\n" +
-                       "               groups = RegistrationChecks.class) boolean isRegistered) {}\n\n" +
-                       "// Company record with group conversion\n" +
-                       "public record Company(\n" +
-                       "    @NotNull String companyName,\n" +
-                       "    @Valid @ConvertGroup(from = Default.class, to = RegistrationChecks.class)\n" +
-                       "    Registration registration) {}\n\n" +
-                       "// Demo code\n" +
-                       "Registration reg = new Registration(\"x1asas\", false);\n" +
-                       "Company company = new Company(\"CompanyName\", reg);\n" +
-                       "validator.validate(company, RegistrationChecks.class);";
-                
             case "GroupSequenceRecordsTest":
                 return "// Group interfaces\n" +
                        "public interface FirstGroup {}\n" +
@@ -632,12 +569,6 @@ public class Validation31TestServlet extends HttpServlet {
             case "nestedRecordsTest":
                 return "// Cascaded validation API (using @Valid annotation)\n" +
                        "Set<ConstraintViolation<Employee>> violations = validator.validate(employee);";
-                
-            case "convertGroupsRecordsTest":
-                return "// Default group validation API\n" +
-                       "Set<ConstraintViolation<Registration>> violations1 = validator.validate(registration);\n\n" +
-                       "// Group-specific validation API with group conversion\n" +
-                       "Set<ConstraintViolation<Company>> violations2 = validator.validate(company, RegistrationChecks.class);";
                 
             case "GroupSequenceRecordsTest":
                 return "// Group sequence validation API\n" +
