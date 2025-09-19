@@ -1,0 +1,28 @@
+# Maven
+target/
+*.class
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# Liberty
+.classCache/
+workarea/
+logs/
+
+# IDE
+.idea/
+*.iml
+.settings/
+.project
+.classpath
+.factorypath
+.apt_generated/
+.apt_generated_tests/
+
+# Misc
+.DS_Store
+Thumbs.db
